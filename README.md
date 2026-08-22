@@ -34,6 +34,7 @@ readings and alerts using the approved CGM workflow.
 - CSV export for today, seven days, or a validated date range;
 - captive-portal Wi-Fi and Dexcom publisher-account provisioning;
 - configurable POSIX timezone, 12/24-hour clock, and screen-off schedule;
+- center double-tap screen-off and touch-to-wake with temporary schedule override;
 - TFT and web controls for clock format and four-point touch recalibration;
 - graceful Wi-Fi, Dexcom, and SD failure recovery.
 

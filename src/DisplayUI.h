@@ -9,7 +9,7 @@
 enum class UiScreen : uint8_t { DASHBOARD, STATUS };
 enum class TouchAction : uint8_t {
   NONE, SHOW_STATUS, SHOW_DASHBOARD, RANGE_3H, RANGE_6H, RANGE_12H,
-  RANGE_24H, CALIBRATE_TOUCH, TOGGLE_CLOCK_FORMAT
+  RANGE_24H, CALIBRATE_TOUCH, TOGGLE_CLOCK_FORMAT, SCREEN_OFF, WAKE_SCREEN
 };
 
 struct StatusData {
@@ -45,6 +45,7 @@ class DisplayUI {
   void invalidate();
   void calibrateTouch();
   void setBacklight(bool on);
+  bool backlightOn() const { return backlightOn_; }
   void showWifiSetup(const String &ssid);
   void showWelcome(const String &version);
   void showSafetyWarning();
@@ -60,9 +61,11 @@ class DisplayUI {
   bool touchWasDown_ = false;
   uint16_t pressX_ = 0, pressY_ = 0;
   uint32_t lastTouchMs_ = 0;
+  uint32_t lastCenterTapMs_ = 0;
   int minX_ = TOUCH_MIN_X, maxX_ = TOUCH_MAX_X;
   int minY_ = TOUCH_MIN_Y, maxY_ = TOUCH_MAX_Y;
   bool touchCalibrated_ = false;
+  bool backlightOn_ = true;
   bool tangoLoaded_ = false;
   bool screenValid_ = false;
   UiScreen renderedScreen_ = UiScreen::DASHBOARD;

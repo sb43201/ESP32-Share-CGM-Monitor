@@ -77,6 +77,7 @@ void DisplayUI::begin() {
 
 void DisplayUI::setBacklight(bool on) {
   digitalWrite(TFT_BL, on ? TFT_BACKLIGHT_ON : !TFT_BACKLIGHT_ON);
+  backlightOn_ = on;
 }
 
 void DisplayUI::showWelcome(const String &version) {
@@ -146,6 +147,8 @@ TouchAction DisplayUI::updateTouch(UiScreen screen) {
     pressX_ = constrain(map(point.x, minX_, maxX_, 0, 479), 0, 479);
     pressY_ = constrain(map(point.y, minY_, maxY_, 0, 319), 0, 319);
     Serial.printf("[TOUCH] raw=%d,%d mapped=%u,%u\n", point.x, point.y, pressX_, pressY_);
+    // When dark, the first touch is reserved exclusively for waking the TFT.
+    if (!backlightOn_) return TouchAction::WAKE_SCREEN;
     // Act on initial contact instead of making the user hold pressure until
     // release. The down latch prevents repeats while the finger remains down.
     if (screen == UiScreen::STATUS) {
@@ -159,6 +162,17 @@ TouchAction DisplayUI::updateTouch(UiScreen screen) {
     // Make the small header label comfortable to hit with a fingertip. The
     // invisible target includes the adjacent CGM indicator and extra depth.
     if (pressY_ <= 80 && pressX_ >= 355) return TouchAction::SHOW_STATUS;
+    // A deliberate double tap in the large center region manually turns the
+    // backlight off. A single tap has no dashboard action.
+    if (pressX_ >= 120 && pressX_ <= 360 && pressY_ >= 90 && pressY_ <= 235) {
+      const uint32_t now = millis();
+      if (lastCenterTapMs_ && now - lastCenterTapMs_ <= 650) {
+        lastCenterTapMs_ = 0;
+        return TouchAction::SCREEN_OFF;
+      }
+      lastCenterTapMs_ = now;
+      return TouchAction::NONE;
+    }
     // The visible tabs are 40 px tall; the touch target deliberately extends
     // into the surrounding whitespace for comfortable fingertip operation.
     if (pressY_ >= RANGE_TOP - 16 && pressY_ <= 319) {

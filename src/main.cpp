@@ -39,6 +39,9 @@ bool webStarted = false;
 bool mdnsStarted = false;
 bool graphDirty = true, screenDirty = true;
 
+enum class ScreenOverride : uint8_t { AUTO, FORCE_ON, FORCE_OFF };
+ScreenOverride screenOverride = ScreenOverride::AUTO;
+
 void loadHistoryRangePreference() {
   Preferences preferences;
   preferences.begin("dexcomui", false);
@@ -189,7 +192,17 @@ void loadSelectedRangeIfNeeded() {
 void handleTouch() {
   const TouchAction action = display.updateTouch(uiScreen);
   if (action == TouchAction::NONE) return;
-  if (action == TouchAction::SHOW_STATUS) uiScreen = UiScreen::STATUS;
+  if (action == TouchAction::SCREEN_OFF) {
+    screenOverride = ScreenOverride::FORCE_OFF;
+    display.setBacklight(false);
+    Serial.println("[DISPLAY] Manual screen-off override");
+    return;
+  } else if (action == TouchAction::WAKE_SCREEN) {
+    screenOverride = ScreenOverride::FORCE_ON;
+    display.setBacklight(true);
+    Serial.println("[DISPLAY] Manual wake override");
+    return;
+  } else if (action == TouchAction::SHOW_STATUS) uiScreen = UiScreen::STATUS;
   else if (action == TouchAction::SHOW_DASHBOARD) uiScreen = UiScreen::DASHBOARD;
   else if (action == TouchAction::CALIBRATE_TOUCH) {
     display.setBacklight(true);
@@ -256,6 +269,8 @@ void updateScreenSchedule() {
     off=s.screenOffMinute<s.screenOnMinute ? minute>=s.screenOffMinute&&minute<s.screenOnMinute
                                           : minute>=s.screenOffMinute||minute<s.screenOnMinute;
   }
+  if (screenOverride == ScreenOverride::FORCE_ON) off = false;
+  else if (screenOverride == ScreenOverride::FORCE_OFF) off = true;
   display.setBacklight(!off);
 }
 

@@ -93,6 +93,12 @@ Enable Scheduled screen off and choose exact off/on times in the dashboard.
 Overnight periods are supported. Only the TFT backlight turns off; Wi-Fi,
 Dexcom polling, SD logging, and the web server continue running.
 
+Double-tap the large center area of the dashboard to turn the TFT backlight off
+manually. Tap anywhere once while the screen is dark to wake it. Manual off/on
+temporarily overrides the configured schedule without changing its saved state
+or times. The override lasts until reboot; after reboot, automatic scheduling
+resumes normally.
+
 ## 7. Status screen
 
 Touch **STATUS** to view IP/RSSI, Dexcom/session state, reading age, NTP, uptime,
