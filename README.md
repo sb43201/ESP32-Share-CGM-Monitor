@@ -54,6 +54,13 @@ readings and alerts using the approved CGM workflow.
 | SD MISO | GPIO 19 |
 | SD MOSI | GPIO 23 |
 
+## Project media and enclosure
+
+- [Project images](docs/images/) contains photographs, screenshots, and
+  documentation graphics.
+- [3D-printed enclosure](hardware/enclosure/) contains CAD, printable files,
+  fabrication guidance, and assembly notes.
+
 ## Build and upload
 
 Requirements: VS Code with PlatformIO, or PlatformIO Core.
