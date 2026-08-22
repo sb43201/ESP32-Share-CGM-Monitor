@@ -96,8 +96,8 @@ Dexcom polling, SD logging, and the web server continue running.
 Double-tap the large center area of the dashboard to turn the TFT backlight off
 manually. Tap anywhere once while the screen is dark to wake it. Manual off/on
 temporarily overrides the configured schedule without changing its saved state
-or times. The override lasts until reboot; after reboot, automatic scheduling
-resumes normally.
+or times. Automatic control resumes at the next scheduled on/off transition or
+when device settings are saved again; no reboot is required.
 
 ## 7. Status screen
 

@@ -41,6 +41,8 @@ bool graphDirty = true, screenDirty = true;
 
 enum class ScreenOverride : uint8_t { AUTO, FORCE_ON, FORCE_OFF };
 ScreenOverride screenOverride = ScreenOverride::AUTO;
+bool scheduleStateInitialized = false;
+bool lastScheduledOff = false;
 
 void loadHistoryRangePreference() {
   Preferences preferences;
@@ -262,13 +264,22 @@ void setup() {
 }
 
 void updateScreenSchedule() {
-  const auto &s = deviceSettings.data(); bool off = false;
+  const auto &s = deviceSettings.data(); bool scheduledOff = false;
   if (s.screenScheduleEnabled && timeManager.isSynchronized() && s.screenOffMinute != s.screenOnMinute) {
     time_t stamp=time(nullptr); struct tm local{}; localtime_r(&stamp,&local);
     const uint16_t minute=local.tm_hour*60+local.tm_min;
-    off=s.screenOffMinute<s.screenOnMinute ? minute>=s.screenOffMinute&&minute<s.screenOnMinute
-                                          : minute>=s.screenOffMinute||minute<s.screenOnMinute;
+    scheduledOff=s.screenOffMinute<s.screenOnMinute ? minute>=s.screenOffMinute&&minute<s.screenOnMinute
+                                                     : minute>=s.screenOffMinute||minute<s.screenOnMinute;
   }
+  if (!scheduleStateInitialized) {
+    lastScheduledOff = scheduledOff;
+    scheduleStateInitialized = true;
+  } else if (scheduledOff != lastScheduledOff) {
+    lastScheduledOff = scheduledOff;
+    screenOverride = ScreenOverride::AUTO;
+    Serial.println("[DISPLAY] Scheduled transition restored automatic control");
+  }
+  bool off = scheduledOff;
   if (screenOverride == ScreenOverride::FORCE_ON) off = false;
   else if (screenOverride == ScreenOverride::FORCE_OFF) off = true;
   display.setBacklight(!off);
@@ -283,6 +294,7 @@ void loop() {
     lastPoll=0;
     timeManager.begin(deviceSettings.data().timezone, deviceSettings.data().clock24Hour);
     startMdns();
+    screenOverride=ScreenOverride::AUTO; scheduleStateInitialized=false;
     ntpStarted=true; ntpWasSynced=false; display.invalidate(); screenDirty=true;
   }
   if (webDashboard.consumeWifiResetRequest()) {
