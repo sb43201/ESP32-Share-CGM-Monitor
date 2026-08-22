@@ -13,9 +13,10 @@ through an unofficial/private Dexcom Share interface over Wi-Fi and does not
 communicate directly with a sensor over Bluetooth. That interface may change or
 stop working without notice.
 
-This project is a secondary informational display only. It is not a medical
-device and is not a replacement for an approved CGM application or receiver,
-medical alarms, professional advice, or treatment decisions. Confirm unexpected
+This project is an independent, noncommercial, open-source experimental passive
+secondary CGM display. It has not been reviewed, cleared, or approved by FDA and
+must not be relied upon for treatment decisions, medical alarms, diagnosis, or
+replacement of an approved CGM application or receiver. Confirm unexpected
 readings and alerts using the approved CGM workflow.
 
 ## V3.1.0 features
@@ -24,8 +25,8 @@ readings and alerts using the approved CGM workflow.
 - color-coded glucose: red below 70, green from 70–180, and yellow above 180 mg/dL;
 - touch-selectable 3H, 6H, 12H, and 24H TFT graphs with the last range
   restored after reboot;
-- 70, 180, and 250 mg/dL graph references with flashing critical alerts below
-  65 or above 250 mg/dL;
+- 70, 180, and 250 mg/dL graph references with a flashing visual threshold
+  warning below 65 or above 250 mg/dL;
 - persistent daily CSV logging to the onboard microSD slot;
 - recovery of recent graph history after reboot;
 - responsive web dashboard with live glucose, statistics, and 3H–30D history;

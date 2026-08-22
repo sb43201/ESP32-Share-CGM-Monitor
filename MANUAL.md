@@ -2,11 +2,13 @@
 
 ## 1. Safety
 
-This independent project is unofficial and is not affiliated with or endorsed
-by Dexcom, Inc. It uses an unofficial/private Dexcom Share interface that may
-change without notice. Do not use it as a replacement for an approved CGM app
-or receiver, for treatment decisions, or as a medical alarm system. Confirm
-unexpected readings and alerts through the approved CGM workflow.
+This independent, noncommercial, open-source experimental project is unofficial
+and is not affiliated with or endorsed by Dexcom, Inc. It uses an
+unofficial/private Dexcom Share interface that may change without notice. This
+project is a passive secondary CGM display. It has not been reviewed, cleared,
+or approved by FDA and must not be relied upon for treatment decisions, medical
+alarms, diagnosis, or replacement of an approved CGM application or receiver.
+Confirm unexpected readings and alerts through the approved CGM workflow.
 
 ## 2. Normal TFT display
 
@@ -19,7 +21,7 @@ Glucose value colors:
 - red: below 70 mg/dL, or a reading older than 15 minutes;
 - green: 70–180 mg/dL;
 - yellow: above 180 mg/dL;
-- flashing black on red: below 65 or above 250 mg/dL.
+- visual threshold warning: flashing black on red below 65 or above 250 mg/dL.
 
 The graph uses a fixed 40–300 mg/dL scale. Reference lines mark 70, 180, and
 250 mg/dL. Touch **3H**, **6H**, **12H**, or **24H** to change the range. Tabs
