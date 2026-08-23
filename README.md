@@ -137,6 +137,16 @@ never automatically deleted in V3.1.0.
 Short history comes from the bounded 288-reading RAM buffer. Longer history is
 streamed from SD; 7D uses 15-minute bins and 30D uses hourly min/average/max bins.
 
+## Protocol reference and acknowledgments
+
+The Dexcom Share request flow and response conventions used by this project
+were informed by [PyDexcom](https://github.com/gagebenne/pydexcom), an
+independent Python client for Dexcom Share.
+
+This firmware is an independent C++ implementation for ESP32. It does not
+include, link to, or require the PyDexcom Python package. Neither project is
+affiliated with or endorsed by Dexcom, Inc.
+
 ## Security and limitations
 
 - Dexcom Share is an unofficial/private API and may change without notice.
