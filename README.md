@@ -144,7 +144,7 @@ were informed by [PyDexcom](https://github.com/gagebenne/pydexcom), an
 independent Python client for Dexcom Share.
 
 This firmware is an independent C++ implementation for ESP32. It does not
-include, link to, or require the PyDexcom Python package. Neither project is
+include, depend on, or require the PyDexcom Python package. Neither project is
 affiliated with or endorsed by Dexcom, Inc.
 
 ## Security and limitations
